@@ -10,11 +10,12 @@ from django.core.files.base import File
 from django.core.files.storage import Storage
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from firebase_admin import credentials, storage
+import threading
 
 class FirebaseStorage(Storage):
     def __init__(self):
         cred = credentials.Certificate(settings.FIREBASE_CERT_DATA)
-        firebase = firebase_admin.initialize_app(cred)
+        firebase = firebase_admin.initialize_app(cred, name=f'firebase-{threading.current_thread().name}')
         self.bucket = storage.bucket(settings.FIREBASE_STORAGE_BUCKET, firebase)
 
     def exists(self, name):
