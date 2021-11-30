@@ -35,7 +35,7 @@ class FirebaseStorage(Storage):
             raise ValueError(f"Undefined content type: {type(content)}")
 
         blob.make_public()
-        return blob.public_url
+        return name
 
     def url(self, name):
         if not self.exists(name):
